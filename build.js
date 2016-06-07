@@ -30,12 +30,15 @@ map.on('style.load', function(e) {
 
             var josm_button = createHTML('open-obj-in-josm-button', {
                 obj_type: invalidAreas[0].properties.obj_type,
-                obj_id: invalidAreas[0].properties.obj_id
+                obj_id: invalidAreas[0].properties.obj_id,
+                select_node_ids: [invalidAreas[0].properties.id1, invalidAreas[0].properties.id2]
             });
+
+            popupHTML = '<h3>' + invalidAreas[0].properties.problem + '</h3>' + josm_button;
 
             var popup = new mapboxgl.Popup()
                 .setLngLat(e.lngLat)
-                .setHTML(josm_button)
+                .setHTML(popupHTML)
                 .addTo(map);
         }
 

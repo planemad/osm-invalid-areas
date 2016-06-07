@@ -119,6 +119,6 @@ function createHTML(type, opts){
   if('open-obj-in-josm-button'){
     url = 'http://127.0.0.1:8111/load_object?new_layer=true&objects=' + opts.obj_type + opts.obj_id;
   }
-  HTML = '<a href=' + url + '>Open in JOSM</a>';
+  HTML = '<a class="button short" target="_blank" href=' + url + '>Open in JOSM</a>';
   return HTML;
 }
