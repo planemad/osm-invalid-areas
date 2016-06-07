@@ -117,7 +117,7 @@ function openInJOSM(map, opts) {
 function createHTML(type, opts){
   var HTML, url, obj_type;
   if('open-obj-in-josm-button'){
-    node_ids = '",' + opts.select_node_ids[0] + ',' + opts.select_node_ids[1] + '"';
+    node_ids = ',n' + opts.select_node_ids[0] + ',n' + opts.select_node_ids[1];
     url = 'http://127.0.0.1:8111/load_object?new_layer=true&objects=' + opts.obj_type + opts.obj_id + node_ids + '&relation_members=true';
   }
   HTML = '<a class="button short" target="_blank" href=' + url + '>Open in JOSM</a>';
