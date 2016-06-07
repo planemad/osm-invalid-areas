@@ -17,10 +17,27 @@ map.addControl(new mapboxgl.Navigation());
 map.on('style.load', function(e) {
 
 
-
     map.on('click', function(e) {
 
+        var invalidAreas = queryLayerFeatures(map, e.point, {
+            layers: ['invalid-osm-areas', 'invalid-osm-areas-problem'],
+            radius: 10
+        });
 
+        console.log(invalidAreas);
+
+        if (invalidAreas) {
+
+            var josm_button = createHTML('open-obj-in-josm-button', {
+                obj_type: invalidAreas[0].properties.obj_type,
+                obj_id: invalidAreas[0].properties.obj_id
+            });
+
+            var popup = new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(josm_button)
+                .addTo(map);
+        }
 
     });
 

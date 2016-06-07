@@ -1,5 +1,5 @@
 // Utility functions to work with Mapbox GL JS maps
-// Requires jquery
+// Requires mapbox-gl.js and jquery
 // - Toggle visibility of a layer
 
 
@@ -79,8 +79,8 @@ function mergeLayerFilters(existingFilter, mergeFilter) {
 // Return a square bbox of pixel coordinates from a given x,y point
 function pixelPointToSquare(point, width) {
     var pointToSquare = [
-        [point.x - width/2, point.y - width/2],
-        [point.x + width/2, point.y + width/25]
+        [point.x - width / 2, point.y - width / 2],
+        [point.x + width / 2, point.y + width / 25]
     ];
     return pointToSquare;
 }
@@ -90,8 +90,19 @@ function pixelPointToSquare(point, width) {
 // OpenStreetMap Utilities
 //
 
+// Return features near a paoint from a set of map layers
+function queryLayerFeatures(map, point, opts) {
+
+    var queryResults = map.queryRenderedFeatures(pixelPointToSquare(point, opts.radius), {
+        layers: opts.layers
+    });
+
+    return queryResults;
+
+}
+
 //Open map location in JOSM
-function openInJOSM(opts) {
+function openInJOSM(map, opts) {
     var bounds = map.getBounds();
     var top = bounds.getNorth();
     var bottom = bounds.getSouth();
@@ -100,4 +111,14 @@ function openInJOSM(opts) {
     // var josmUrl = 'https://127.0.0.1:8112/load_and_zoom?left='+left+'&right='+right+'&top='+top+'&bottom='+bottom;
     var josmUrl = 'http://127.0.0.1:8111/load_and_zoom?left=' + left + '&right=' + right + '&top=' + top + '&bottom=' + bottom;
     $.ajax(josmUrl, function() {});
+}
+
+
+function createHTML(type, opts){
+  var HTML, url, obj_type;
+  if('open-obj-in-josm-button'){
+    url = 'http://127.0.0.1:8111/load_object?new_layer=true&objects=' + opts.obj_type + opts.obj_id;
+  }
+  HTML = '<a href=' + url + '>Open in JOSM</a>';
+  return HTML;
 }
